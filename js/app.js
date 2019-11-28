@@ -2,15 +2,15 @@
 function showLastEvents(events) {
     events.forEach(event => {
         $('.last-events').append(`
-            <article class="event-article">
-                <a href="description.html" data-id="${event.id}" class="event">
+            <article class="event-article" >
+                <a class="event" data-id="${event.id}">
                     <img src="${event.cover_url}">
                     <h3 class="event-title">${event.title}</h3>
                     <p class="date-description">${event.date_description}</p>
                     <p>${event.lead_text}</p>
                 </a>
                 <div>
-                    <a><i class="far fa-heart" title="Ajouter à mes favoris" data-id="${event.id}"></i></a>
+                    <a><i class="far fa-heart favorite" title="Ajouter à mes favoris"></i></a>
                 </div>
             </article>`);
     });
@@ -19,15 +19,15 @@ function showLastEvents(events) {
 function showNextEvents(events) {
     events.forEach(event => {
         $('.next-events').append(`
-            <article class="event-article">
-                <a href="" data-id="${event.id}" class="event">
+            <article class="event-article" >
+                <a class="event" data-id="${event.id}">
                     <img src="${event.cover_url}">
                     <h3 class="event-title">${event.title}</h3>
                     <p class="date-description">${event.date_description}</p>
                     <p>${event.lead_text}</p>
                 </a>
                 <div>
-                    <a><i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i></a>
+                    <i class="far fa-heart favorite" title="Ajouter à mes favoris"></i>
                 </div>
             </article>`);
     });
@@ -45,12 +45,14 @@ function showSearchEvents(events) {
     } else {
 
         events.forEach(event => {
-                $('.response-full').append(`<section class="response" data-id="${event.id}" class="event">
-                <img src="${event.cover_url}">
-                <input name="id" type="hidden" value="${event.id}">
-                <article class="response-article">
-                <h3 class="response-title">${event.title}</h3>
-                <p>${event.lead_text}</p>
+                $('.response-full').append(`<section class="response">
+                <a class="event" data-id="${event.id}">
+                    <img src="${event.cover_url}">
+                    <input name="id" type="hidden" value="${event.id}">
+                    <article class="response-article">
+                    <h3 class="response-title">${event.title}</h3>
+                    <p>${event.lead_text}</p>
+                </a>
                 <i id="search-favorite-icon" class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i>
             </article>
         </section>`);       
@@ -85,15 +87,15 @@ function showEventById(event) {
                 </li>
                 <li class="price">
                     <div class="icon"><i class="fas fa-euro-sign"></i></div>
-                    <div class="content"><br><p>${event[0].price_detail}</p></div>
+                    <div class="content"><p>${event[0].price_detail}</p></div>
                 </li>
                 <li class="phone">
                     <div class="icon"><i class="fas fa-phone-alt"></i></div>
-                    <div class="content"><p>${event[0].access_phone}</p>
+                    <div class="content"><br><p>${event[0].access_phone}</p>
                 </li>
                 <li class="mail">
                     <div class="icon"><i class="far fa-envelope-open"></i></div>
-                    <div class="content"><p>${event[0].access_mail}</p></div>
+                    <div class="content"><br><p>${event[0].access_mail}</p></div>
                 </li>
                 <li class="fb">
                     <div class="icon"><i class="fab fa-facebook-f"></i></div>
@@ -102,13 +104,26 @@ function showEventById(event) {
                 <li class="address">
                     <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div class="content"><span class="italic">${event[0].address_name}<br>${event[0].address_street}<br>${event[0].address_zipcode} ${event[0].address_city}</span><br>
-                    <p><span class="bold">En transport </span> ${event[0].transport}</p></div>
+                    <p><br><span class="bold">En transport </span>${event[0].transport}</p></div>
                 </li>
             </ul>
         </section>
         </section>`);
 }
 
+
+function getDataId() {
+    $('.event').click(function() {
+        const id = $(this).data("id");
+        console.log(id); 
+        
+        goToDescription(id);
+    });
+}
+
+function goToDescription(id){
+    $(location).attr('href','description.html?id='+ id);   
+}
 
 // ================================
 // Avec la méthode async/await
@@ -118,25 +133,12 @@ function showEventById(event) {
     const [lastEvents, nextEvents] = await Promise.all([getLastEvents(), getNextEvents()]);
     showLastEvents(lastEvents);
     showNextEvents(nextEvents);
+
+    getDataId();
+
 })();
-
-(async function() {
-    const eventById = await Promise.resolve(getEventById('79052'));
-    showEventById(eventById);
-})();
-
-
 
 $(document).ready(function(){
-
-//    $('.event-article').click(function(e) {
-//         e.preventDefault();
-//         var id = $('a').data("id");
-//         // var id = $("a").data("id");
-//         console.log(id);  
-//         console.log('test')
-//     });
-
 
     $('#submit').click(function(e) {
         e.preventDefault();
@@ -146,8 +148,21 @@ $(document).ready(function(){
         (async function() {
             const searchEvents = await Promise.resolve(getSearchEvents(keyword));
             showSearchEvents(searchEvents);
+
+            getDataId();
+
         })();
     });
 
+
+
+    $('.favorite').click(function(e) {
+        e.preventDefault();
+        $(this).toggleClass('fas');
+        console.log('a')
+    })
+
 });
+
+
 
