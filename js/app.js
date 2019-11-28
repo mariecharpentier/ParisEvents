@@ -35,6 +35,9 @@ function showNextEvents(events) {
 
 function showSearchEvents(events) {
 
+    $('.response-null').empty();
+    $('.response-full').empty();
+
     if (events.length === 0) {
 
         $('.response-null').removeClass('hidden');
@@ -122,33 +125,29 @@ function showEventById(event) {
     showEventById(eventById);
 })();
 
-// (async function() {
-//     const searchEvents = await Promise.resolve(getSearchEvents('violon'));
-//     showSearchEvents(searchEvents);
-// })();
 
 
 $(document).ready(function(){
 
-//     $(document).on("click", "a.event", function() {
-//         // var id = $(this).data("id");
-//         var id = $("a").data("id");
+//    $('.event-article').click(function(e) {
+//         e.preventDefault();
+//         var id = $('a').data("id");
+//         // var id = $("a").data("id");
 //         console.log(id);  
 //         console.log('test')
 //     });
 
-    $('#submit').on('click', function() {
-        // var keyword = $('#keyword').val();
-        var keyword = $('input[name=keyword]').val();
-        console.log(keyword)
+
+    $('#submit').click(function(e) {
+        e.preventDefault();
+        var keyword = $('#keyword').val();
+        console.log(keyword);
+
+        (async function() {
+            const searchEvents = await Promise.resolve(getSearchEvents(keyword));
+            showSearchEvents(searchEvents);
+        })();
     });
 
 });
-
-
-
-// $('#keyword').autocomplete({
-    // source : [...], // on inscrit la liste de suggestions
-    // minLength : 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
-// });
 
