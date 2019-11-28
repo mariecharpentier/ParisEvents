@@ -149,6 +149,10 @@ a {
     align-items: stretch;
 }
 
+.event {
+    cursor: pointer;
+}
+
 .event-article {
     background-color: lightgrey;
     width: 32%;
@@ -159,9 +163,10 @@ a {
 
 .event-article img  {
     width: 100%;
-    max-height: 165px;
+    height: 150px;
     object-fit: cover; 
-    object-position: 50% 20%;
+    object-position: 50% 50%;
+    border: 0.6px solid lightgrey;
 }
 
 .event-title {
@@ -193,6 +198,7 @@ a {
 
 .fa-heart:hover {
     transform: scale(1.5);
+    cursor: pointer;
 }
 
 /***************************************************************************/
@@ -234,7 +240,7 @@ a {
     border: 2px solid lightgrey;
 }
 
-#search-btn {
+#submit {
     height: 33px;
     border-radius: 3px;
     border-style: none;
@@ -242,7 +248,7 @@ a {
     transition: border 0.35s linear;
 }
 
-#search-btn:hover {
+#submit:hover {
     border: 2px solid #382097;
 }
 
@@ -266,9 +272,18 @@ a {
     justify-content: flex-start;
 }
 
+.response div {
+    border: 1px solid lightgrey;
+    background-color: lightgrey;
+    overflow: hidden;
+    height: 100%;
+}
+
 .response img {
     width: 200px;
+    height: 100%;
     object-fit: cover; 
+    object-position: 50% 50%;
 }
 
 .response-title {
@@ -299,6 +314,7 @@ a {
 
 .description img {
     width: 100%;
+    background-color: lightgrey;
 }
 
 .chapeau {
