@@ -37,12 +37,3 @@ async function getEventById(id) {
     return event;
 }
 
-// async function getEventsSortedById(list) {
-//     const data = await $.ajax(`https://opendata.paris.fr/api/v2/catalog/datasets/que-faire-a-paris-/records?where=id%3D`+ list);
-    
-//     // Traitement du résultat
-//     const events = data.records.map(record => record.record.fields);
-//     console.log(events)
-
-//     return events;
-// }

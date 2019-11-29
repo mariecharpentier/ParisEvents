@@ -1,4 +1,3 @@
-
 function showLastEvents(events) {
     events.forEach(event => {
         $('.last-events').append(`
@@ -10,7 +9,7 @@ function showLastEvents(events) {
                     <p>${event.lead_text}</p>
                 </a>
                 <div>
-                    <a><i class="far fa-heart favorite" title="Ajouter à mes favoris"></i></a>
+                    <a><i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i></a>
                 </div>
             </article>`);
     });
@@ -27,7 +26,7 @@ function showNextEvents(events) {
                     <p>${event.lead_text}</p>
                 </a>
                 <div>
-                    <i class="far fa-heart favorite" title="Ajouter à mes favoris"></i>
+                    <i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i>
                 </div>
             </article>`);
     });
@@ -47,8 +46,7 @@ function showSearchEvents(events) {
         events.forEach(event => {
                 $('.response-full').append(`<section class="response">
                 <a class="event" data-id="${event.id}">
-                    <img src="${event.cover_url}">
-                    <input name="id" type="hidden" value="${event.id}">
+                    <div><img src="${event.cover_url}"></div>
                     <article class="response-article">
                     <h3 class="response-title">${event.title}</h3>
                     <p>${event.lead_text}</p>
@@ -60,8 +58,6 @@ function showSearchEvents(events) {
 
     }
 }
-
-
 
 function showEventById(event) {
     $('.one-event').append(`
@@ -109,14 +105,25 @@ function showEventById(event) {
             </ul>
         </section>
         </section>`);
+
 }
 
+function showFavoriteById(event) {
+    $('.favorites-section').append(`
+        <article class="event-article">
+            <a class="event" data-id="${event[0].id}">
+                <img src="${event[0].cover_url}">
+                <h3 class="event-title">${event[0].title}</h3>
+                <p>${event[0].lead_text}</p>
+            </a>
+            <div><i class="fas fa-trash-alt delete" title="Supprimer" data-id="${event[0].id}"></i></div>
+        </article>`);
+}
 
 function getDataId() {
     $('.event').click(function() {
         const id = $(this).data("id");
         console.log(id); 
-        
         goToDescription(id);
     });
 }
@@ -125,8 +132,46 @@ function goToDescription(id){
     $(location).attr('href','description.html?id='+ id);   
 }
 
+function selectFavorite(){
+    $('.favorite').click(function(e) {
+        e.preventDefault();
+
+        if ($(this).hasClass('fas') == false) {
+            $(this).addClass('fas');
+            const id = $(this).data('id');
+
+            (async function() {   
+                const value = await Promise.resolve(getEventById(id));
+                window.localStorage.setItem(id, JSON.stringify(value)); 
+            })();
+
+        } else {
+            $(this).removeClass('fas');
+            const id = $(this).data("id");
+            window.localStorage.removeItem(id);
+        }
+       
+    })
+}
+
+function favoritesOnCurrentPage(){
+    
+    for ( let i = 0; i < localStorage.length; i++){
+        let id = localStorage.key(i);
+        console.log(id)
+        
+        if ($('.favorite').data('id') == id) {
+            $(this).addClass('fas');
+            console.log('test'+id)
+        }
+
+    }
+
+}
+
+
 // ================================
-// Avec la méthode async/await
+// Page ACCUEIL
 // ================================
 
 (async function() {
@@ -136,33 +181,8 @@ function goToDescription(id){
 
     getDataId();
 
+    selectFavorite();
+
+    favoritesOnCurrentPage();
 })();
-
-$(document).ready(function(){
-
-    $('#submit').click(function(e) {
-        e.preventDefault();
-        var keyword = $('#keyword').val();
-        console.log(keyword);
-
-        (async function() {
-            const searchEvents = await Promise.resolve(getSearchEvents(keyword));
-            showSearchEvents(searchEvents);
-
-            getDataId();
-
-        })();
-    });
-
-
-
-    $('.favorite').click(function(e) {
-        e.preventDefault();
-        $(this).toggleClass('fas');
-        console.log('a')
-    })
-
-});
-
-
 
