@@ -12,18 +12,18 @@ function showLastEvents(events) {
                 <div>
                     <a><i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i></a>
                 </div>
-            </article>`);
-        
-            for ( let i = 0; i < localStorage.length; i++){
-                let id = localStorage.key(i);
-                if (localStorage.getItem(id) == $('.favorite').data('id')) {
-                    $(this).addClass('fas');
-                    console.log('test')
-                }
-            }
-
-        
+            </article>`);        
+   
     });
+
+    //  Modifie l état du favori
+    for ( let i = 0; i <  ($('.event-article').length); i++){
+        const id = $('.favorite').data('id');
+        if (localStorage.getItem (id) !== null){
+            $('.favorite').addClass('fas');
+        }
+    }
+
 }
 
 // Affiche les prochains évènements
@@ -41,6 +41,7 @@ function showNextEvents(events) {
                     <i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i>
                 </div>
             </article>`);
+
     });
 }
 
@@ -67,6 +68,8 @@ function showSearchEvents(events) {
                 <i id="search-favorite-icon" class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i>
             </article>
         </section>`);       
+
+
         });
 
     }
@@ -74,6 +77,8 @@ function showSearchEvents(events) {
 
 // Affiche un évènement selon son id
 function showEventById(event) {
+  
+
     $('.one-event').append(`
         <section class="description">
             <h3 id="description-title" class="title">${event[0].title}</h3>
