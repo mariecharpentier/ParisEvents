@@ -106,6 +106,8 @@ function showEventById(event) {
         </section>
         </section>`);
 
+        $(".content:contains('null')").html("Non renseigné");
+
 }
 
 function showFavoriteById(event) {
