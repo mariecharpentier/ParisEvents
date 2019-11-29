@@ -1,3 +1,4 @@
+// Requête pour demander les derniers évènements publiés
 async function getLastEvents() {
     const data = await $.ajax(`https://opendata.paris.fr/api/v2/catalog/datasets/que-faire-a-paris-/records?rows=3`);
 
@@ -7,6 +8,7 @@ async function getLastEvents() {
     return events;
 }
 
+// Requête pour demander les évènements des prochains jours
 async function getNextEvents() {
     const data = await $.ajax(`https://opendata.paris.fr/api/v2/catalog/datasets/que-faire-a-paris-/records?rows=3&sort=date_end`);
 
@@ -17,6 +19,7 @@ async function getNextEvents() {
     return events;
 }
 
+// Requête pour demander les évènements correspondant à la recherche 
 async function getSearchEvents(keyword) {
     const data = await $.ajax(`https://opendata.paris.fr/api/v2/catalog/datasets/que-faire-a-paris-/records?search=`+ keyword + `&sort=date_end`);
 
@@ -27,6 +30,7 @@ async function getSearchEvents(keyword) {
     return events;
 }
 
+// Requête pour demander un évènement selon son id
 async function getEventById(id) {
     const data = await $.ajax(`https://opendata.paris.fr/api/v2/catalog/datasets/que-faire-a-paris-/records?where=id%3D`+ id);
     

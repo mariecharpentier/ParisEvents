@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+    // Lancer la recherche au clic puis la requete de la recherche
     $('#submit').click(function(e) {
         e.preventDefault();
         var keyword = $('#keyword').val();
@@ -13,8 +14,6 @@ $(document).ready(function(){
             getDataId();
 
             selectFavorite();
-
-            favoritesOnCurrentPage();
         
         })();
     });

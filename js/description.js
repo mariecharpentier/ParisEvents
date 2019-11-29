@@ -1,3 +1,4 @@
+// Récupérer l id de l URL et afficher les informations de l evenement correspondant
 function getIdfromUrl(){
     const id = parseQueryString(window.location.search);
 

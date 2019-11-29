@@ -1,3 +1,4 @@
+// Affiche les derniers évènements publiés
 function showLastEvents(events) {
     events.forEach(event => {
         $('.last-events').append(`
@@ -12,9 +13,20 @@ function showLastEvents(events) {
                     <a><i class="far fa-heart favorite" title="Ajouter à mes favoris" data-id="${event.id}"></i></a>
                 </div>
             </article>`);
+        
+            for ( let i = 0; i < localStorage.length; i++){
+                let id = localStorage.key(i);
+                if (localStorage.getItem(id) == $('.favorite').data('id')) {
+                    $(this).addClass('fas');
+                    console.log('test')
+                }
+            }
+
+        
     });
 }
 
+// Affiche les prochains évènements
 function showNextEvents(events) {
     events.forEach(event => {
         $('.next-events').append(`
@@ -32,6 +44,7 @@ function showNextEvents(events) {
     });
 }
 
+// Affiche les évènements corespondants à une recherche
 function showSearchEvents(events) {
 
     $('.response-null').empty();
@@ -59,6 +72,7 @@ function showSearchEvents(events) {
     }
 }
 
+// Affiche un évènement selon son id
 function showEventById(event) {
     $('.one-event').append(`
         <section class="description">
@@ -110,6 +124,7 @@ function showEventById(event) {
 
 }
 
+// Affiche les évènements favoris
 function showFavoriteById(event) {
     $('.favorites-section').append(`
         <article class="event-article">
@@ -122,6 +137,7 @@ function showFavoriteById(event) {
         </article>`);
 }
 
+// Récupère l id de l évènement et redirige
 function getDataId() {
     $('.event').click(function() {
         const id = $(this).data("id");
@@ -130,10 +146,12 @@ function getDataId() {
     });
 }
 
+// Dirige vers la page de l évènement selon son id
 function goToDescription(id){
     $(location).attr('href','description.html?id='+ id);   
 }
 
+// Gère les favoris dans le localStorage
 function selectFavorite(){
     $('.favorite').click(function(e) {
         e.preventDefault();
@@ -156,26 +174,12 @@ function selectFavorite(){
     })
 }
 
-function favoritesOnCurrentPage(){
-    
-    for ( let i = 0; i < localStorage.length; i++){
-        let id = localStorage.key(i);
-        console.log(id)
-        
-        if ($('.favorite').data('id') == id) {
-            $(this).addClass('fas');
-            console.log('test'+id)
-        }
-
-    }
-
-}
-
 
 // ================================
 // Page ACCUEIL
 // ================================
 
+// Lance la requête des prochains et derniers évènements
 (async function() {
     const [lastEvents, nextEvents] = await Promise.all([getLastEvents(), getNextEvents()]);
     showLastEvents(lastEvents);
@@ -185,6 +189,5 @@ function favoritesOnCurrentPage(){
 
     selectFavorite();
 
-    favoritesOnCurrentPage();
 })();
 
