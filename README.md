@@ -20,4 +20,6 @@ Il utilise les données de <a href="https://opendata.paris.fr/pages/home/" targe
 
 <h2>Screenshots</h2>
 
-
+<img src="screenshot1.jpg" alt="screenshot">
+<img src="screenshot2.jpg" alt="screenshot">
+<img src="screenshot3.jpg" alt="screenshot">
